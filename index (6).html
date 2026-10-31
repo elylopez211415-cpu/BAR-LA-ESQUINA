@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bar La Esquina</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header id="encabezado">
+    <h1 id="titulo-bar">Bar La Esquina</h1>
+    <div id="acciones-datos">
+      <button type="button" id="btn-exportar">Exportar</button>
+      <button type="button" id="btn-importar">Importar</button>
+      <input type="file" id="input-importar" accept=".json" hidden>
+    </div>
+  </header>
+
+  <nav id="menu-principal" aria-label="Secciones del sistema">
+    <ul>
+      <li><a href="#salon" id="nav-salon">Salón</a></li>
+      <li><a href="#carta" id="nav-carta">Carta</a></li>
+      <li><a href="#caja" id="nav-caja">Caja del día</a></li>
+    </ul>
+  </nav>
+
+  <p id="mensaje-datos" hidden></p>
+
+  <main id="contenido">
+
+    <!-- SALÓN -->
+    <section id="salon" aria-labelledby="titulo-salon">
+      <h2 id="titulo-salon">Salón</h2>
+
+      <div id="salon-layout">
+        <section id="mesas" aria-labelledby="titulo-mesas">
+          <h3 id="titulo-mesas">Mesas</h3>
+          <!-- Las mesas ya vienen escritas; app.js las vuelve a dibujar según el estado real -->
+          <div id="grilla-mesas" role="group" aria-label="Mesas del salón">
+            <button type="button" class="mesa libre" data-id="1" aria-pressed="false">
+              <span class="mesa-numero">Mesa 1</span>
+              <span class="mesa-estado">Libre</span>
+            </button>
+            <button type="button" class="mesa libre" data-id="2" aria-pressed="false">
+              <span class="mesa-numero">Mesa 2</span>
+              <span class="mesa-estado">Libre</span>
+            </button>
+            <button type="button" class="mesa libre" data-id="3" aria-pressed="false">
+              <span class="mesa-numero">Mesa 3</span>
+              <span class="mesa-estado">Libre</span>
+            </button>
+            <button type="button" class="mesa libre" data-id="4" aria-pressed="false">
+              <span class="mesa-numero">Mesa 4</span>
+              <span class="mesa-estado">Libre</span>
+            </button>
+            <button type="button" class="mesa libre" data-id="5" aria-pressed="false">
+              <span class="mesa-numero">Mesa 5</span>
+              <span class="mesa-estado">Libre</span>
+            </button>
+            <button type="button" class="mesa libre" data-id="6" aria-pressed="false">
+              <span class="mesa-numero">Mesa 6</span>
+              <span class="mesa-estado">Libre</span>
+            </button>
+            <button type="button" class="mesa libre" data-id="7" aria-pressed="false">
+              <span class="mesa-numero">Mesa 7</span>
+              <span class="mesa-estado">Libre</span>
+            </button>
+            <button type="button" class="mesa libre" data-id="8" aria-pressed="false">
+              <span class="mesa-numero">Mesa 8</span>
+              <span class="mesa-estado">Libre</span>
+            </button>
+          </div>
+        </section>
+
+        <aside id="panel-pedido" aria-labelledby="titulo-pedido">
+          <h3 id="titulo-pedido">Pedido de la mesa</h3>
+          <p id="mesa-seleccionada">Ninguna mesa seleccionada</p>
+
+          <form id="form-item-pedido" hidden>
+            <label for="item-producto">Producto</label>
+            <select id="item-producto" name="producto"></select>
+
+            <div class="fila-cantidad">
+              <div class="campo-cantidad">
+                <label for="item-cantidad">Cantidad</label>
+                <input type="number" id="item-cantidad" name="cantidad" min="1" step="1" value="1">
+              </div>
+              <button type="submit" id="btn-agregar-item">➕ Agregar</button>
+            </div>
+
+            <p id="error-item" class="error-formulario" role="alert" hidden></p>
+          </form>
+          <ul id="lista-pedido"></ul>
+          <p id="total-pedido">Total: <output id="total-pedido-valor">$0</output></p>
+          <button type="button" id="btn-cerrar-cuenta" disabled>🧾 Cerrar cuenta</button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- CARTA -->
+    <section id="carta" aria-labelledby="titulo-carta">
+      <h2 id="titulo-carta">Carta</h2>
+
+      <form id="form-producto">
+        <fieldset>
+          <legend>Producto</legend>
+
+          <label for="producto-nombre">Nombre</label>
+          <input type="text" id="producto-nombre" name="nombre" placeholder="Ej: Cerveza artesanal" autocomplete="off" required>
+
+          <label for="producto-categoria">Categoría</label>
+          <select id="producto-categoria" name="categoria" required>
+            <option value="">Elegí una categoría</option>
+            <option value="Bebidas">Bebidas</option>
+            <option value="Comidas">Comidas</option>
+            <option value="Postres">Postres</option>
+            <option value="Otros">Otros</option>
+          </select>
+
+          <label for="producto-precio">Precio</label>
+          <input type="number" id="producto-precio" name="precio" min="0" step="0.01" placeholder="Ej: 3500" inputmode="decimal" required>
+
+          <label for="producto-disponible">
+            <input type="checkbox" id="producto-disponible" name="disponible" checked>
+            Disponible
+          </label>
+
+          <button type="submit" id="btn-guardar-producto">Guardar producto</button>
+        </fieldset>
+      </form>
+
+      <section id="productos" aria-labelledby="titulo-productos">
+        <h3 id="titulo-productos">Productos cargados</h3>
+        <!-- Los productos de ejemplo ya vienen escritos; app.js los reemplaza con los guardados -->
+        <div id="lista-productos">
+          <section class="categoria">
+            <h4 class="categoria-titulo">Bebidas</h4>
+            <ul class="productos-categoria">
+              <li class="producto" data-id="1">
+                <div class="producto-info">
+                  <strong class="producto-nombre">Cerveza artesanal</strong>
+                  <span class="producto-precio">$ 3.500</span>
+                </div>
+                <div class="producto-acciones">
+                  <label class="interruptor">
+                    <input type="checkbox" data-accion="disponible" checked aria-label="Disponible: Cerveza artesanal">
+                    <span class="interruptor-pista"></span>
+                    <span class="interruptor-texto">Disponible</span>
+                  </label>
+                  <button type="button" class="btn-secundario" data-accion="editar">✏️ Editar</button>
+                  <button type="button" class="btn-peligro" data-accion="borrar">🗑️ Borrar</button>
+                </div>
+              </li>
+              <li class="producto" data-id="2">
+                <div class="producto-info">
+                  <strong class="producto-nombre">Gaseosa</strong>
+                  <span class="producto-precio">$ 2.200</span>
+                </div>
+                <div class="producto-acciones">
+                  <label class="interruptor">
+                    <input type="checkbox" data-accion="disponible" checked aria-label="Disponible: Gaseosa">
+                    <span class="interruptor-pista"></span>
+                    <span class="interruptor-texto">Disponible</span>
+                  </label>
+                  <button type="button" class="btn-secundario" data-accion="editar">✏️ Editar</button>
+                  <button type="button" class="btn-peligro" data-accion="borrar">🗑️ Borrar</button>
+                </div>
+              </li>
+            </ul>
+          </section>
+          <section class="categoria">
+            <h4 class="categoria-titulo">Comidas</h4>
+            <ul class="productos-categoria">
+              <li class="producto" data-id="3">
+                <div class="producto-info">
+                  <strong class="producto-nombre">Hamburguesa completa</strong>
+                  <span class="producto-precio">$ 8.500</span>
+                </div>
+                <div class="producto-acciones">
+                  <label class="interruptor">
+                    <input type="checkbox" data-accion="disponible" checked aria-label="Disponible: Hamburguesa completa">
+                    <span class="interruptor-pista"></span>
+                    <span class="interruptor-texto">Disponible</span>
+                  </label>
+                  <button type="button" class="btn-secundario" data-accion="editar">✏️ Editar</button>
+                  <button type="button" class="btn-peligro" data-accion="borrar">🗑️ Borrar</button>
+                </div>
+              </li>
+              <li class="producto" data-id="4">
+                <div class="producto-info">
+                  <strong class="producto-nombre">Papas fritas</strong>
+                  <span class="producto-precio">$ 4.800</span>
+                </div>
+                <div class="producto-acciones">
+                  <label class="interruptor">
+                    <input type="checkbox" data-accion="disponible" checked aria-label="Disponible: Papas fritas">
+                    <span class="interruptor-pista"></span>
+                    <span class="interruptor-texto">Disponible</span>
+                  </label>
+                  <button type="button" class="btn-secundario" data-accion="editar">✏️ Editar</button>
+                  <button type="button" class="btn-peligro" data-accion="borrar">🗑️ Borrar</button>
+                </div>
+              </li>
+            </ul>
+          </section>
+          <section class="categoria">
+            <h4 class="categoria-titulo">Postres</h4>
+            <ul class="productos-categoria">
+              <li class="producto" data-id="5">
+                <div class="producto-info">
+                  <strong class="producto-nombre">Flan con dulce de leche</strong>
+                  <span class="producto-precio">$ 3.900</span>
+                </div>
+                <div class="producto-acciones">
+                  <label class="interruptor">
+                    <input type="checkbox" data-accion="disponible" checked aria-label="Disponible: Flan con dulce de leche">
+                    <span class="interruptor-pista"></span>
+                    <span class="interruptor-texto">Disponible</span>
+                  </label>
+                  <button type="button" class="btn-secundario" data-accion="editar">✏️ Editar</button>
+                  <button type="button" class="btn-peligro" data-accion="borrar">🗑️ Borrar</button>
+                </div>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </section>
+    </section>
+
+    <!-- CAJA DEL DÍA -->
+    <section id="caja" aria-labelledby="titulo-caja">
+      <h2 id="titulo-caja">Caja del día</h2>
+
+      <table id="tabla-caja">
+        <caption>Movimientos del día</caption>
+        <thead>
+          <tr>
+            <th scope="col">Hora</th>
+            <th scope="col">Mesa</th>
+            <th scope="col">Forma de pago</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-caja"></tbody>
+        <tfoot>
+          <tr>
+            <th scope="row" colspan="3">Total recaudado</th>
+            <td id="total-caja">$0</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <section id="resumen-caja" aria-labelledby="titulo-resumen">
+        <h3 id="titulo-resumen">Subtotal por forma de pago</h3>
+        <ul id="subtotales-pago"></ul>
+      </section>
+    </section>
+
+  </main>
+
+  <footer id="pie">
+    <small>Bar La Esquina</small>
+  </footer>
+
+  <!-- Forma de pago al cerrar la cuenta -->
+  <dialog id="dialogo-cierre" aria-labelledby="titulo-cierre">
+    <form id="form-cierre" novalidate>
+      <h3 id="titulo-cierre">Cerrar cuenta</h3>
+      <p id="resumen-cierre"></p>
+
+      <fieldset>
+        <legend>Forma de pago</legend>
+        <label><input type="radio" name="formaPago" value="efectivo"> 💵 Efectivo</label>
+        <label><input type="radio" name="formaPago" value="debito"> 💳 Débito</label>
+        <label><input type="radio" name="formaPago" value="transferencia"> 🏦 Transferencia</label>
+      </fieldset>
+
+      <p id="error-cierre" class="error-formulario" role="alert" hidden></p>
+
+      <div class="acciones-dialogo">
+        <button type="button" id="btn-cancelar-cierre" class="btn-secundario">Cancelar</button>
+        <button type="submit" id="btn-confirmar-cierre">Confirmar cierre</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Ticket de la cuenta cerrada -->
+  <dialog id="dialogo-ticket" aria-label="Ticket de la cuenta">
+    <article id="ticket"></article>
+    <div class="acciones-dialogo">
+      <button type="button" id="btn-cerrar-ticket">Listo</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
